@@ -20,8 +20,8 @@ struct Args {
 }
 
 fn pretty_print_speeds(speed_bps: f64) {
-    println!("{} kBps", speed_bps / 1024.0);
-    println!("{} mBps", speed_bps / (1024.0 * 1024.0));
+    println!("{} kbps", speed_bps / 1024.0);
+    println!("{} mbps", speed_bps / (1024.0 * 1024.0));
 }
 
 fn server(addr: String) {
@@ -41,7 +41,7 @@ fn server(addr: String) {
             total_written += written;
         }
         stream.flush().unwrap();
-        let speed_bps = total_written as f64 / start.elapsed().as_secs_f64();
+        let speed_bps = (total_written as f64 / start.elapsed().as_secs_f64()) * 8_f64;
         pretty_print_speeds(speed_bps);
     }
 }
@@ -61,7 +61,7 @@ fn client(addr: String) {
         total_read += read_bytes;
     }
     println!("Total Read: {}", total_read);
-    let speed_bps = total_read as f64 / start.elapsed().as_secs_f64();
+    let speed_bps = (total_read as f64 / start.elapsed().as_secs_f64()) * 8_f64;
     pretty_print_speeds(speed_bps);
 }
 
